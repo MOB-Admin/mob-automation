@@ -1,0 +1,16 @@
+---
+# Install openjdk java 1.7
+
+- name: Install openjdk Java 1.7
+  yum: pkg={{item}} state=present update_cache=yes
+  with_items:
+    - java-1.7.0-openjdk
+
+#- name: Update alternatives
+#  alternatives: name=java path=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.95.x86_64/jre/bin/java
+
+- name: Set JAVA_HOME system variable
+  lineinfile: dest=/etc/environment regexp='^JAVA_HOME' line="JAVA_HOME=/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.95.x86_64" state=present
+
+#- name: export JAVA_HOME
+#  template: src=openjdk dest=/etc/profile.d/openjdk.sh

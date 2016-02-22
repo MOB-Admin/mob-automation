@@ -1,0 +1,50 @@
+---
+# Common system setup
+
+- name: installing common applications
+  yum: pkg={{item}} state=present
+  with_items:
+    - screen
+    - htop
+    - sudo
+    - iftop
+    - mc
+    - vim
+    - fail2ban
+    - zip
+    - lynx
+    - ntp
+    - libselinux-python
+    - python-devel
+    - python-lxml
+    - python-pip
+
+- name: Set hostname
+  template: src=hostname.j2 dest=/etc/hostname mode=644
+  register: sethostname
+
+- name: set temp hostname variable
+  shell: hostname {{inventory_hostname_short}}
+  when: sethostname |changed
+
+- name: add hostname to local host file
+  lineinfile: dest=/etc/hosts line='127.0.0.1 {{ inventory_hostname_short }}'
+
+
+- name: Set ntp client config
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  notify: restart ntp
+
+- name: Set bash config
+  template: src=.bashrc.j2 dest=/home/{{ssh_user}}/.bashrc
+
+- name: Set root bash config
+  template: src=.bashrc.j2 dest=/root/.bashrc
+
+- name: Set vim config
+  template: src=vimrc.j2 dest=/etc/vimrc
+
+- name: Add ssh key for authentication
+  authorized_key: key="{{item}}" user="{{ssh_user}}"
+  with_items:
+    - "{{ ansible_ssh_key }}"

@@ -1,0 +1,12 @@
+---
+
+- name: Installing Ansible
+  pip: name=ansible state=latest
+
+- name: Check is SSH fingerprints disabled
+  stat: path={{ user_home }}/.ansible.cfg
+  register: ansiblecfg
+
+- name: Disabled ssh fingerprints (known_host)
+  template: src=ansible.cfg dest={{ user_home }}/.ansible.cfg owner={{ user }} group={{ user }} mode=0644
+  when: ansiblecfg.stat.islnk is not defined

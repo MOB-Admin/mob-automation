@@ -1,0 +1,66 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+
+  config.vm.box = "bento/centos-6.7"
+
+  config.vm.define "ansnode", primary: true do |ansnode|
+    ansnode.vm.box = "bento/centos-6.7"
+    ansnode.vm.network "private_network", ip: "192.168.56.10"
+    ansnode.vm.provider "virtualbox" do |vb|
+      vb.name = "ansnode"
+    end
+    ansnode.vm.provision "shell", inline: "echo Provision"
+    ansnode.vm.provision "shell", inline: "sudo yum install -y git epel-release mc vsftpd gcc python-devel openssl-devel PyYAML python-Jinja2 python-httplib2 python-six"
+    ansnode.vm.provision "shell", inline: "sudo /etc/init.d/vsftpd restart"
+    ansnode.vm.provision "shell", inline: "sudo pip install ansible"
+  end
+
+  config.vm.define "zoo", autostart: false do |zoo|
+    zoo.vm.network "private_network", ip: "192.168.56.20"
+    zoo.vm.box = "puphpet/centos65-x64"
+    zoo.vm.provider "virtualbox" do |vb|
+      vb.name = "zoo"
+    end
+  end
+
+  config.vm.define "sensu", autostart: false do |sensu|
+    sensu.vm.box = "debian/jessie64"
+    sensu.vm.network "private_network", ip: "192.168.56.21"
+    sensu.vm.provider "virtualbox" do |vb|
+      vb.name = "sensu"
+    end
+    sensu.vm.synced_folder ".", "/vagrant", type: "virtualbox"
+  end
+
+  config.vm.define "host1", autostart: false do |host1|
+    host1.vm.network "private_network", ip: "192.168.56.22"
+    host1.vm.box = "bento/centos-6.7"
+    host1.vm.provider "virtualbox" do |vb|
+      vb.name = "host1"
+    end
+  end
+
+  config.vm.define "host2", autostart: false do |host2|
+    host2.vm.network "private_network", ip: "192.168.56.23"
+    host2.vm.box = "bento/centos-6.7"
+    host2.vm.provider "virtualbox" do |vb|
+      vb.name = "host2"
+    end
+  end
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.gui = false
+    vb.memory = "1024"
+  end
+
+  config.vm.provision "shell" do |s|
+    ssh_pub_key = File.readlines("#{Dir.home}/.ssh/devkey.pub").first.strip
+    s.inline = <<-SHELL
+      echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
+      #echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
+    SHELL
+  end
+   
+end

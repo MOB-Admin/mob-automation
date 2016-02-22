@@ -1,0 +1,13 @@
+# setup common system applications and configure Ansible node
+#
+
+- hosts: "{{env}}"
+  user: vagrant
+  become: yes
+  become_method: sudo
+  gather_facts: true
+  roles:
+    - common
+    - java1.7
+    - ansible-node
+                        

@@ -1,0 +1,8 @@
+---
+
+- include: packages.yml
+
+- include: ansible.yml
+
+- include: ssh.yml
+
