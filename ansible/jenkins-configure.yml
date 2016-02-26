@@ -7,7 +7,4 @@
   become_method: sudo
   gather_facts: true
   roles:
-    - common
-    - java1.7-centos
-    - ansible-node
-                        
+    - jenkins

@@ -60,3 +60,7 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+id_rsa
+AEM_5.6.1_Quickstart.jar
+license.properties

@@ -1,7 +1,7 @@
 ---
-# Common system setup
+# Common system setup designed for CentOS and Debian
 
-- name: installing common applications
+- name: Installing common applications by YUM
   yum: pkg={{item}} state=present
   with_items:
     - screen
@@ -18,6 +18,25 @@
     - python-devel
     - python-lxml
     - python-pip
+  when: ansible_os_family == "CentOS"
+
+- name: Installing common applications by APT
+  apt: pkg={{item}} state=present
+  with_items:
+    - screen
+    - htop
+    - sudo
+    - iftop
+    - mc
+    - vim
+    - fail2ban
+    - zip
+    - lynx
+    - ntp
+    - python-dev
+    - python-lxml
+    - python-pip
+  when: ansible_os_family == "Debian"
 
 - name: Set hostname
   template: src=hostname.j2 dest=/etc/hostname mode=644
@@ -30,10 +49,13 @@
 - name: add hostname to local host file
   lineinfile: dest=/etc/hosts line='127.0.0.1 {{ inventory_hostname_short }}'
 
-
 - name: Set ntp client config
   template: src=ntp.conf.j2 dest=/etc/ntp.conf
   notify: restart ntp
+
+- name: Restart NTPd (CentOS doesnt know service ntpd restart)
+  shell: sudo /etc/init.d/ntpd restart
+  when: ansible_os_family == "CentOS"
 
 - name: Set bash config
   template: src=.bashrc.j2 dest=/home/{{ssh_user}}/.bashrc

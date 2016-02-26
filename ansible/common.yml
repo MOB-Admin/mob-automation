@@ -8,6 +8,5 @@
   gather_facts: true
   roles:
     - common
-    - java1.7-centos
-    - ansible-node
+    - java1.7-debian
                         
