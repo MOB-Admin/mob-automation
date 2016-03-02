@@ -13,17 +13,20 @@ jenkins_maxopenfiles: 8192
 
 jenkins_apt_key: http://pkg.jenkins-ci.org/debian-stable/jenkins-ci.org.key
 jenkins_apt_key_id: D50582E6
-jenkins_apt_repository: deb http://pkg.jenkins-ci.org/debian-stable binary/ 
+jenkins_apt_repository: deb http://pkg.jenkins-ci.org/debian-stable binary/
 
 # Set known hosts for ssh
-jenkins_ssh_fingerprints:          
+jenkins_ssh_fingerprints:
   - "github.com,204.232.175.90 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=="
+
+# Private keys for Jenkins deployments
+jenkins_ssh_key_files: [id_rsa_aemdemo.pem,id_rsa_authmereloaded.pem,id_rsa_bungecoord.pem,id_rsa_devkey.pem]
 
 # Ensure the packages installed
 jenkins_apt_packages: [git,subversion,maven,ruby,ruby-sass]
 
 # Ensure the plugins is installed
-jenkins_plugins: [artifactory,ant,artifactory,backup,copyartifact,cvs,deploy,dynamicparameter,external-monitor-job,git,git-parameter,git-server,javadoc,jira,ldap,m2relase,mailer,maven-plugin,pam-auth,parameterized-trigger,scp,scriptler,sonar,ssh,ssh-slaves,subversion,token-macro,translation]                 
+jenkins_plugins: [artifactory,artifactdeployer,artifact-promotion,ant,backup,config-file-provider,copyartifact,cvs,deploy,dynamicparameter,external-monitor-job,git,git-parameter,git-server,javadoc,jira,ldap,m2release,mailer,maven-plugin,pam-auth,parameterized-trigger,scp,scriptler,sonar,ssh,ssh-slaves,subversion,token-macro,translation,timestamper,uno-choice]
 
 jenkins_java: /usr/bin/java
 jenkins_java_args:

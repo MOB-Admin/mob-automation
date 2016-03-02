@@ -1,0 +1,10 @@
+# Setup Apache Archiva
+#
+
+- hosts: "{{env}}"
+  user: vagrant
+  become: yes
+  become_method: sudo
+  gather_facts: true
+  roles:
+    - apache-archiva

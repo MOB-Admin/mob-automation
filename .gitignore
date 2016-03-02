@@ -61,6 +61,6 @@ target/
 #Ipython Notebook
 .ipynb_checkpoints
 
-id_rsa
+/ansible/roles/jenkins/files/*
 AEM_5.6.1_Quickstart.jar
 license.properties
