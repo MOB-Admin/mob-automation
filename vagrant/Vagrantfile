@@ -25,28 +25,41 @@ Vagrant.configure(2) do |config|
     end
   end
 
-  config.vm.define "sensu", autostart: false do |sensu|
-    sensu.vm.box = "debian/jessie64"
-    sensu.vm.network "private_network", ip: "192.168.56.21"
-    sensu.vm.provider "virtualbox" do |vb|
-      vb.name = "sensu"
+  config.vm.define "ci", autostart: false do |ci|
+    ci.vm.box = "debian/jessie64"
+    ci.vm.network "private_network", ip: "192.168.56.21"
+    ci.vm.provider "virtualbox" do |vb|
+      vb.name = "ci-server"
     end
-    sensu.vm.synced_folder ".", "/vagrant", type: "virtualbox"
+    ci.vm.synced_folder ".", "/vagrant", type: "virtualbox"
+    ci.vm.provision "shell", inline: "sudo groupadd jenkins"
+    ci.vm.provision "shell", inline: "sudo useradd -G admin -d /home/jenkins -s /bin/bash jenkins"
+    #ci.vm.provision "shell", inline: "sudo passwd jenkins"
   end
 
-  config.vm.define "host1", autostart: false do |host1|
-    host1.vm.network "private_network", ip: "192.168.56.22"
-    host1.vm.box = "bento/centos-6.7"
-    host1.vm.provider "virtualbox" do |vb|
-      vb.name = "host1"
+  config.vm.define "mob", autostart: false do |mob|
+    mob.vm.box = "debian/jessie64"
+    mob.vm.network "private_network", ip: "192.168.56.25"
+    mob.vm.provider "virtualbox" do |vb|
+      vb.name = "mob-server"
+      vb.memory = "2048"
+    end
+    mob.vm.synced_folder ".", "/vagrant", type: "virtualbox"
+  end  
+
+  config.vm.define "aemauthor", autostart: false do |aemauthor|
+    aemauthor.vm.network "private_network", ip: "192.168.56.22"
+    aemauthor.vm.box = "bento/centos-6.7"
+    aemauthor.vm.provider "virtualbox" do |vb|
+      vb.name = "aem-author"
     end
   end
 
-  config.vm.define "host2", autostart: false do |host2|
-    host2.vm.network "private_network", ip: "192.168.56.23"
-    host2.vm.box = "bento/centos-6.7"
-    host2.vm.provider "virtualbox" do |vb|
-      vb.name = "host2"
+  config.vm.define "aempublisher", autostart: false do |aempublisher|
+    aempublisher.vm.network "private_network", ip: "192.168.56.23"
+    aempublisher.vm.box = "bento/centos-6.7"
+    aempublisher.vm.provider "virtualbox" do |vb|
+      vb.name = "aem-publisher"
     end
   end
 
