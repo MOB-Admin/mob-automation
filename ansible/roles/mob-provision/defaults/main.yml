@@ -1,0 +1,5 @@
+minecraft_user: minecraft
+minecraft_home: /home/minecraft
+server_folder: /home/minecraft/mob-servers
+repo_user: "admin"
+repo_pass: "Secret123"

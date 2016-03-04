@@ -1,0 +1,21 @@
+---
+
+- name: Pre-configure git 
+  template: src=config.j2 dest={{ minecraft_home }}/.ssh/config owner=minecraft group=minecraft mode=0644
+
+- name: Pre-configure git 
+  template: src=gitconfig.j2 dest={{ minecraft_home }}/.gitconfig owner=minecraft group=minecraft mode=0644
+
+- name: Create a project folder if not exists
+  file: path={{ server_folder }} state=directory mode=0755 owner=minecraft group=minecraft
+
+- name: tell the host about our servers it might want to ssh to
+  known_hosts: path='/etc/ssh/ssh_known_hosts'
+               host='github.com'
+               key="{{ lookup('file', 'github.com.pub') }}"
+ 
+- name: Checkout servers repo
+  become: yes
+  become_user: "{{ minecraft_user }}"
+  become_method: sudo
+  git: repo=git@github.com:DmitryRendov/mob-server.git dest={{ server_folder }}

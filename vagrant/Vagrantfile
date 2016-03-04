@@ -33,8 +33,7 @@ Vagrant.configure(2) do |config|
     end
     ci.vm.synced_folder ".", "/vagrant", type: "virtualbox"
     ci.vm.provision "shell", inline: "sudo groupadd jenkins"
-    ci.vm.provision "shell", inline: "sudo useradd -G admin -d /home/jenkins -s /bin/bash jenkins"
-    #ci.vm.provision "shell", inline: "sudo passwd jenkins"
+    ci.vm.provision "shell", inline: "sudo useradd -G admin -m -d /home/jenkins -s /bin/bash jenkins"
   end
 
   config.vm.define "mob", autostart: false do |mob|
@@ -45,6 +44,17 @@ Vagrant.configure(2) do |config|
       vb.memory = "2048"
     end
     mob.vm.synced_folder ".", "/vagrant", type: "virtualbox"
+
+    mob.vm.provision "shell" do |s|
+      s.inline = <<-SHELL
+        sudo groupadd minecraft
+        sudo useradd -g minecraft -m -d /home/minecraft -c "Minecraft user" -s /bin/bash minecraft
+        sudo mkdir /home/minecraft/.ssh && sudo chown minecraft:minecraft /home/minecraft/.ssh && sudo chmod 700 /home/minecraft/.ssh
+        sudo cat /vagrant/id_rsa_mobdeploy.pem >> /home/minecraft/.ssh/id_rsa_mobdeploy.pem
+        sudo chown minecraft:minecraft /home/minecraft/.ssh/id_rsa_mobdeploy.pem && sudo chmod 400 /home/minecraft/.ssh/id_rsa_mobdeploy.pem
+      SHELL
+    end  
+
   end  
 
   config.vm.define "aemauthor", autostart: false do |aemauthor|
