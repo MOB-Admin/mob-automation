@@ -1,11 +1,13 @@
 ---
 
-- copy: src={{ item }} dest=/etc/init.d remote_src=true owner=root group=root mode="a+x"
+- name: Placed service scripts to init.d
+  copy: src={{ item }} dest=/etc/init.d remote_src=true owner=root group=root mode="a+x"
   with_items:
     - "{{ server_folder }}/rc-scripts/bungeecord"
     - "{{ server_folder }}/rc-scripts/lobby"
 
-#- service: name={{ item }} pattern={{ item }} state=stopped
-#  with_items:
-#    - bungeecord
-#    - lobby
+- name: Starting services and marked them to start on boot
+  service: name={{ item }} enabled=yes state=restarted
+  with_items:
+    - bungeecord
+    - lobby

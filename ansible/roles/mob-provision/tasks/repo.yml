@@ -1,5 +1,8 @@
 ---
 
+- name: Check if a user has added to sudores and validate it before saving
+  lineinfile: dest=/etc/sudoers state=present regexp='^{{ minecraft_user }} ALL\=' line='{{ minecraft_user }} ALL=(ALL) NOPASSWD:ALL' validate='visudo -cf %s'
+
 - name: Pre-configure git 
   template: src=config.j2 dest={{ minecraft_home }}/.ssh/config owner=minecraft group=minecraft mode=0644
 
@@ -18,4 +21,27 @@
   become: yes
   become_user: "{{ minecraft_user }}"
   become_method: sudo
-  git: repo=git@github.com:DmitryRendov/mob-server.git dest={{ server_folder }}
+  git: repo=git@github.com:DmitryRendov/mob-server.git dest={{ server_folder }} force=yes
+
+- name: Setup server configuration
+  template: src={{ item.tmpl }} dest={{ item.dst }} owner=minecraft group=minecraft mode=0644
+  with_items:
+    - { tmpl: "./lobby/server.properties.j2", dst: "{{ server_folder }}/lobby/server.properties" }
+    - { tmpl: "./lobby/spigot.yml.j2", dst: "{{ server_folder }}/lobby/spigot.yml" }
+
+- name: Create server source folder
+  file: path={{ server_folder }}/lobby/lobby/ state=directory mode=0755
+
+- name: Download server source from Dropbox
+  become: yes
+  become_user: "{{ minecraft_user }}"
+  get_url: url={{ dl_source_url }} dest={{ dl_target_path }} mode=0644
+  register: sourcedl
+  
+- name: Download and unpack server source
+  become: yes
+  become_user: "{{ minecraft_user }}"
+  unarchive: src={{ sourcedl.dest }} dest={{ server_folder }}/lobby/lobby/ copy=no
+
+- pause: prompt="Some pause"
+ 
