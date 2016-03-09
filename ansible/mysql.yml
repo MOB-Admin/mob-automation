@@ -9,3 +9,5 @@
   roles:
     - mysql
                         
+  vars_files:
+    - host_vars/{{env}}

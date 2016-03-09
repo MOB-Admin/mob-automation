@@ -8,4 +8,6 @@
   gather_facts: true
   roles:
     - mob-provision
-                        
+
+  vars_files:
+    - host_vars/{{env}}
