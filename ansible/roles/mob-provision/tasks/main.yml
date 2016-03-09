@@ -4,6 +4,8 @@
 
 - include: repo.yml
 
-#- include: worlds.yml
+- include: worlds.yml
+
+- include: database.yml
 
 - include: services.yml

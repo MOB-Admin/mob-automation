@@ -1,0 +1,15 @@
+---
+
+- name: Create Lobby server source folder
+  file: path={{ server_folder }}/lobby/lobby/ state=directory mode=0755
+
+- name: Download Lobby server source from Dropbox
+  become: yes
+  become_user: "{{ minecraft_user }}"
+  get_url: url={{ dl_source_url }} dest={{ dl_target_path }} mode=0644
+  register: sourcedl
+  
+- name: Download and unpack Lobby server source
+  become: yes
+  become_user: "{{ minecraft_user }}"
+  unarchive: src={{ sourcedl.dest }} dest={{ server_folder }}/lobby/ copy=no force=yes

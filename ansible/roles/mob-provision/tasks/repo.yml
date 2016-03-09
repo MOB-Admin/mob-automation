@@ -12,7 +12,7 @@
 - name: Create a project folder if not exists
   file: path={{ server_folder }} state=directory mode=0755 owner=minecraft group=minecraft
 
-- name: tell the host about our servers it might want to ssh to
+- name: Tell the host about our servers it might want to ssh to
   known_hosts: path='/etc/ssh/ssh_known_hosts'
                host='github.com'
                key="{{ lookup('file', 'github.com.pub') }}"
@@ -28,20 +28,3 @@
   with_items:
     - { tmpl: "./lobby/server.properties.j2", dst: "{{ server_folder }}/lobby/server.properties" }
     - { tmpl: "./lobby/spigot.yml.j2", dst: "{{ server_folder }}/lobby/spigot.yml" }
-
-- name: Create server source folder
-  file: path={{ server_folder }}/lobby/lobby/ state=directory mode=0755
-
-- name: Download server source from Dropbox
-  become: yes
-  become_user: "{{ minecraft_user }}"
-  get_url: url={{ dl_source_url }} dest={{ dl_target_path }} mode=0644
-  register: sourcedl
-  
-- name: Download and unpack server source
-  become: yes
-  become_user: "{{ minecraft_user }}"
-  unarchive: src={{ sourcedl.dest }} dest={{ server_folder }}/lobby/lobby/ copy=no
-
-- pause: prompt="Some pause"
- 

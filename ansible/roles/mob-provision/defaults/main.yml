@@ -3,5 +3,13 @@ minecraft_home: /home/minecraft
 server_folder: /home/minecraft/mob-servers
 repo_user: "admin"
 repo_pass: "Secret123"
-dl_source_url: https://www.dropbox.com/s/tour8ahl96tmcnm/lobby_source.tar.gz?dl=1
+dl_source_url: https://www.dropbox.com/s/jwmprrn80xhet3u/lobby_source_relative.tar.gz?dl=1
 dl_target_path: /tmp
+
+db_name: minecraft8145
+db_dump: minecraft8145.dump.gz
+db_users:
+  - name: minecraft
+    host: localhost
+    pass: 111
+    priv: "*.*:ALL"
