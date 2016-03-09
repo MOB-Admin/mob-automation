@@ -1,0 +1,58 @@
+---
+- name: Add the OS specific variables
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Install the mysql packages (CentOS)
+  yum: name={{ item }} state=installed
+  with_items: mysql_packages
+  when: ansible_os_family == 'CentOS'
+
+- name: Install the mysql packages (Debian)
+  apt: name={{ item }} state=installed update_cache=yes
+  with_items: mysql_packages
+  when: ansible_os_family == 'Debian'
+
+- name: Set global config my.cnf file 
+  template: src=my.cnf.{{ ansible_os_family }}.j2 dest={{ mysql_confdir }}/my.cnf
+  notify: 
+   - restart mysql
+
+- name: Create the directory /etc/mysql/conf.d
+  file: path=/etc/mysql/conf.d state=directory
+  notify:
+   - restart mysql
+
+- name: Start the mysql services (Debian)
+  service: name={{ mysql_service }} state=started enabled=yes
+  when: ansible_os_family == 'Debian'
+
+- name: Update root password for all root accounts
+  mysql_user: name=root host={{ item }} password={{ mysql_rootpass }}
+  with_items:
+   - "{{ ansible_hostname }}"
+   - 127.0.0.1
+   - ::1
+   - localhost
+
+- name: Set local my.cnf file with root user's credentials
+  template: src=.my.cnf.j2 dest=~/.my.cnf mode=0600
+
+- name: Ensure anonymous users are not in the database
+  mysql_user: name='' host={{ item }} state=absent
+  with_items:
+   - localhost
+   - "{{ ansible_hostname }}"
+
+- name: Remove the test database
+  mysql_db: name=test state=absent
+
+- name: Create the database's
+  mysql_db: name={{ item.name }} state=present
+  with_items: mysql_db
+  when: mysql_db|lower() != 'none'
+
+- name: Create the database users
+  mysql_user: name={{ item.name }}  password={{ item.pass|default("Secret123") }}  
+                priv={{ item.priv|default("*.*:ALL") }} state=present host={{ item.host | default("localhost") }}
+  with_items: mysql_users
+  when: mysql_users|lower() != 'none'

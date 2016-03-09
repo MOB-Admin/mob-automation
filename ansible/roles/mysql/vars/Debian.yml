@@ -1,0 +1,7 @@
+---
+
+mysql_service: mysql
+mysql_confdir: "/etc/mysql"
+mysql_packages:
+  - mysql-server
+  - python-mysqldb

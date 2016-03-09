@@ -1,0 +1,9 @@
+---
+
+mysql_bind_address: "0.0.0.0"
+mysql_max_allowed_packet: "16MB"
+mysql_rootpass: Secret123
+mysql_port: 3306
+
+mysql_db: none
+mysql_users: none
