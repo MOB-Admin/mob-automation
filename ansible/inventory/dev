@@ -6,9 +6,5 @@ ansible       ansible_ssh_host=192.168.56.10
 zookeeper     ansible_ssh_host=192.168.56.20
 ci            ansible_ssh_host=192.168.56.21
 
-[aem-cluster]
-aemauthor     ansible_ssh_host=192.168.56.22
-aempublisher  ansible_ssh_host=192.168.56.23
-
 [mob]
 mob-server    ansible_ssh_host=192.168.56.25
