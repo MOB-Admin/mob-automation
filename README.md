@@ -2,14 +2,13 @@
 
 This is CI/CD repo for MOB project, that includes main server roles like:
 - Ansible master
-- Jenkins + Apache Archiva server
-- MOB application server
+- MOB game server (screen aproach)
 
 Written in yaml code for Ansible 2.0
 This text you see here is *actually* written in Markdown! To get a feel for Markdown's syntax, type some text into the left window and watch the results in the right.
 
 ### Version
-1.2.4
+1.2.5
 
 ### Tech
 
@@ -20,36 +19,38 @@ And of course Dillinger itself is open source with a [public repository] [pubrep
 
 ### Installation
 
-You need Ansible installed globally:
-
+First, checkout the automation repo:
 ```sh
-$ pip install ansible
+$ git clone git@github.com:DmitryRendov/mob-automation.git mob-automation
+$ cd mob-automation/ansible
 ```
 
+Second, you need Ansible installed globally on ansible node, by the following playbook playing:
+
 ```sh
-$ git clone git@github.com:DmitryRendov/aem-demo.git aem-demo
-$ cd ansible
 $ ansible-playbook -i ./inventory/dev ansbile-node-configure.yml --extra-vars "env=ansible" -vv
-$ ansible-playbook -i ./inventory/dev jenkins-configure.yml --extra-vars "env=ci" -vv
-$ ansible-playbook -i ./inventory/dev apache-archiva.yml --extra-vars "env=ci" -vv
 ```
 
-### Todos
+Third, you should install common packages and java on MOB server:
+```sh
+$ ansible-playbook -i ./inventory/dev common.yml --extra-vars "env=mob" -vv
+$ ansible-playbook -i ./inventory/dev java1.8-oracle-debian.yml --extra-vars "env=mob" -vv
+$ ansible-playbook -i ./inventory/dev mysql.yml --extra-vars "env=mob" -vv
+```
 
- - Setup full CD pipeline
- - Force Docker using
- - Add AWS enviroments
+Last step - MOB server provisioning and setup:
+```sh
+$ ansible-playbook -i ./inventory/dev mob-provision.yml --extra-vars "env=mob" -vv
+```
 
-License
+### License
 ----
 
 MIT
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job.)
 
-   [pubrep]: <https://github.com/DmitryRendov/aem-demo>
+   [pubrep]: <https://github.com/DmitryRendov/mob-automation>
    [Ansible]: <https://www.ansible.com/>
-
-
-A
+   [dockerlnk]: <https://www.docker.com/>
 
