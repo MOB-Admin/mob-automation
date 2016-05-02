@@ -31,9 +31,9 @@ Second, you need Ansible installed globally on ansible node, by the following pl
 $ ansible-playbook -i ./inventory/dev ansbile-node-configure.yml --extra-vars "env=ansible" -vv
 ```
 
-Third, you should install common packages and java on MOB server:
+Third, you should install common packages and Java 8 on MOB server:
 ```sh
-$ ansible-playbook -i ./inventory/dev common.yml --extra-vars "env=mob" -vv
+$ ansible-playbook -i ./inventory/dev common-1.8.yml --extra-vars "env=mob" -vv
 $ ansible-playbook -i ./inventory/dev java1.8-oracle-debian.yml --extra-vars "env=mob" -vv
 $ ansible-playbook -i ./inventory/dev mysql.yml --extra-vars "env=mob" -vv
 ```
