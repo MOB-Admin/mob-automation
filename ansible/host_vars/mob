@@ -5,6 +5,7 @@
 # Common variables
 
 minecraft_user: minecraft
+minecraft_group: minecraft
 minecraft_home: /home/minecraft
 server_folder: /home/minecraft/mob-servers
 repo_user: "admin"

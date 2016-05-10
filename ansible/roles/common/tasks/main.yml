@@ -1,5 +1,5 @@
 ---
-# Common system setup designed for CentOS and Debian
+# Common system setup designed for CentOS and Ubuntu/Debian
 
 - name: Installing common applications by YUM
   yum: pkg={{item}} state=present
@@ -18,7 +18,7 @@
     - python-devel
     - python-lxml
     - python-pip
-  when: ansible_os_family == "CentOS"
+  when: ansible_os_family == "RedHat"
 
 - name: Installing common applications by APT
   apt: pkg={{item}} state=present
@@ -43,7 +43,7 @@
   register: sethostname
 
 - name: set temp hostname variable
-  shell: hostname {{inventory_hostname_short}}
+  shell: hostname {{ inventory_hostname_short }}
   when: sethostname |changed
 
 - name: add hostname to local host file

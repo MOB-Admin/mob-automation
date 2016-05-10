@@ -8,13 +8,13 @@ Written in yaml code for Ansible 2.0
 This text you see here is *actually* written in Markdown! To get a feel for Markdown's syntax, type some text into the left window and watch the results in the right.
 
 ### Version
-1.2.5
+1.2.6
 
 ### Tech
 
 * [Ansible] - continius delivery tool
 
-And of course Dillinger itself is open source with a [public repository] [pubrep]
+And of course MOB provision itself is open source with a [public repository] [pubrep]
  on GitHub.
 
 ### Installation
@@ -24,6 +24,9 @@ First, checkout the automation repo:
 $ git clone git@github.com:DmitryRendov/mob-automation.git mob-automation
 $ cd mob-automation/ansible
 ```
+
+Dont forget to place a deployment key id_rsa_mobdeploy.pem to the mob-provision role folder 
+~/mob-automation/ansible/roles/mob-provision/files
 
 Second, you need Ansible installed globally on ansible node, by the following playbook playing:
 

@@ -1,17 +1,18 @@
 ---
 
-- name: Installing required dependencies by YUM
-  yum: pkg={{ item }} state=present update_cache=yes
+- name: Installing required dependencies by apt-get
+  apt: pkg={{ item }} state=present update_cache=yes
   with_items:
+    - libxml2-dev
+    - libxslt-dev
+    - python-dev
+    - python2.7
+    - python2.7-dev
     - git
-    - python-devel
-    - openssl-devel
-    - libxml2-devel
-    - libxslt-devel
-    - python-pip
     - python-lxml
 
-- name: Installing required dependencies by PIP
+- name: Installing required dependencies by pip
   pip: name={{ item }}
   with_items:
     - boto
+    - docker-py
