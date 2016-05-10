@@ -1,7 +1,7 @@
 ---
 
 - name: Create Lobby server source folder
-  file: path={{ server_folder }}/lobby/lobby/ state=directory mode=0755
+  file: path={{ server_folder }}/lobby/lobby/ state=directory mode=0755 owner={{ minecraft_user }} group={{ minecraft_group }}
 
 - name: Download Lobby server source from Dropbox
   become: yes

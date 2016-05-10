@@ -3,7 +3,7 @@
 
 # ** Local envs provisioning **
 #
-# Server #1 - Ansible node (CentOS 6.7)
+# Server #1 - Ansible node (Debian 8)
 # Server #2 - MOB server with predefined 'minecraft' user (Debian 8)
 #
 
@@ -15,22 +15,18 @@
 
 Vagrant.configure(2) do |config|
 
-  config.vm.box = "bento/centos-6.7"
+  config.vm.box = "debian/jessie64"
 
-  config.vm.define "ansible", primary: true do |ansible|
-    ansible.vm.box = "bento/centos-6.7"
-    ansible.vm.network "private_network", ip: "192.168.56.10"
-    ansible.vm.provider "virtualbox" do |vb|
-      vb.name = "ansible"
+  config.vm.define "ansnode", primary: true do |ansnode|
+    ansnode.vm.network "private_network", ip: "192.168.56.101"
+    ansnode.vm.provider "virtualbox" do |vb|
+      vb.name = "ansnode"
+      vb.memory = "1024"
     end
-    ansible.vm.provision "shell", inline: "echo Provision"
-    ansible.vm.provision "shell", inline: "sudo yum install -y git epel-release mc vsftpd gcc python-devel openssl-devel PyYAML python-Jinja2 python-httplib2 python-six"
-    ansible.vm.provision "shell", inline: "sudo /etc/init.d/vsftpd restart"
-    ansible.vm.provision "shell", inline: "sudo pip install ansible"
+    ansnode.vm.synced_folder ".", "/vagrant", type: "virtualbox"
   end
 
   config.vm.define "mob", autostart: false do |mob|
-    mob.vm.box = "debian/jessie64"
     mob.vm.network "private_network", ip: "192.168.56.25"
     mob.vm.provider "virtualbox" do |vb|
       vb.name = "mob-server"
@@ -59,7 +55,6 @@ Vagrant.configure(2) do |config|
     ssh_pub_key = File.readlines("#{Dir.home}/.ssh/id_rsa_mobadmin.pub").first.strip
     s.inline = <<-SHELL
       echo #{ssh_pub_key} >> /home/vagrant/.ssh/authorized_keys
-      #echo #{ssh_pub_key} >> /root/.ssh/authorized_keys
     SHELL
   end
    
