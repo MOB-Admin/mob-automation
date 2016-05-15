@@ -36,8 +36,8 @@ $ ansible-playbook -i ./inventory/dev ansbile-node-configure.yml --extra-vars "e
 
 Third, you should install common packages and Java 8 on MOB server:
 ```sh
-$ ansible-playbook -i ./inventory/dev common-1.8.yml --extra-vars "env=mob" -vv
-$ ansible-playbook -i ./inventory/dev java1.8-oracle-debian.yml --extra-vars "env=mob" -vv
+$ ansible-playbook -i ./inventory/dev common.yml --extra-vars "env=mob env_type=prod" -vv
+$ ansible-playbook -i ./inventory/dev java.yml --extra-vars "env=mob java_version=1.8" -vv
 $ ansible-playbook -i ./inventory/dev mysql.yml --extra-vars "env=mob" -vv
 ```
 

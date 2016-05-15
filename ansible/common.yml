@@ -1,5 +1,5 @@
 # setup common system applications and configure Ansible node
-#
+# ansible-playbook -i ./inventory/dev common.yml --extra-vars "env=mob env_type=prod" -vv
 
 - hosts: "{{env}}"
   user: vagrant
@@ -8,5 +8,3 @@
   gather_facts: true
   roles:
     - common
-    - { role: java1.7-centos, when: ansible_os_family == "CentOS" }
-    - { role: java1.7-debian, when: ansible_os_family == "Debian" }
