@@ -1,0 +1,9 @@
+Host github.com
+  User git
+  Hostname github.com
+  IdentityFile ~/.ssh/id_rsa
+
+Host git.epam.com
+  User "Dmitry Rendov"
+  Hostname git.epam.com
+  IdentityFile ~/.ssh/id_rsa
