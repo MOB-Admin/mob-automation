@@ -19,7 +19,7 @@ wget -c https://bootstrap.pypa.io/get-pip.py
 python get-pip.py
 pip install ansible
 
-echo /vagrant/ssh/ansible.cfg > /home/dmitry/.ansible.cfg
+cat /vagrant/ssh/ansible.cfg > /home/dmitry/.ansible.cfg
 chmod 640 /home/dmitry/.ansible.cfg
 chown dmitry:dmitry /home/dmitry/.ansible.cfg
 
