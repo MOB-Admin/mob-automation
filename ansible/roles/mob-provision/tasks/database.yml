@@ -6,7 +6,7 @@
 - name: Create the database users
   mysql_user: name={{ item.name }}  password={{ item.pass|default("111") }}  
               priv={{ item.priv|default("*.*:ALL") }} state=present host={{ item.host | default("localhost") }}
-  with_items: db_users
+  with_items: "{{ db_users }}"
   when: db_users|lower() != 'none'
 
 - name: Copy a database dump file to remote host
