@@ -21,3 +21,5 @@ chmod 400 /home/dmitry/.ssh/id_rsa*
 
 chown -R dmitry:dmitry /home/dmitry/.ssh
 chown dmitry:dmitry /home/dmitry/.gitconfig
+
+echo 'dmitry  ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers

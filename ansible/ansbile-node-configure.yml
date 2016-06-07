@@ -1,13 +1,13 @@
 # setup common system applications and configure Ansible node
-#
+# ansible-playbook -i ./inventory/dev ansbile-node-configure.yml --extra-vars "env=ansnode java_version=1.8" -vv
 
 - hosts: "{{env}}"
   user: vagrant
   become: yes
   become_method: sudo
   gather_facts: true
+  max_fail_percentage: 0
   roles:
     - common
-    - java1.7-centos
+    - { role: java1.8-oracle-debian, when: ansible_os_family == "Debian" and java_version == "1.8"}
     - ansible-node
-                        
