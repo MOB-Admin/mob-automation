@@ -8,6 +8,7 @@ minecraft_user: minecraft
 minecraft_group: minecraft
 minecraft_home: /home/minecraft
 server_folder: /home/minecraft/mob-servers
+server_repo: "git@github.com:DmitryRendov/mob-server.git"
 repo_user: "admin"
 repo_pass: "Secret123"
 dl_lobby_source_url: https://www.dropbox.com/s/jwmprrn80xhet3u/lobby_source_relative.tar.gz?dl=1
