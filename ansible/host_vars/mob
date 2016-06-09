@@ -13,6 +13,7 @@ repo_user: "admin"
 repo_pass: "Secret123"
 dl_lobby_source_url: https://www.dropbox.com/s/jwmprrn80xhet3u/lobby_source_relative.tar.gz?dl=1
 dl_survival_source_url: https://www.dropbox.com/s/i6giwnxqph9il1m/survival_source.tar.gz?dl=1
+dl_vanilla_source_url: https://www.dropbox.com/s/r0cywjvg32adltw/vanilla_source.tar.gz?dl=1
 
 mysql_max_allowed_packet: "32MB"
 mysql_rootpass: "111"

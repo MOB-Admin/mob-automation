@@ -5,9 +5,13 @@
   with_items:
     - "{{ server_folder }}/rc-scripts/bungeecord"
     - "{{ server_folder }}/rc-scripts/lobby"
+    - "{{ server_folder }}/rc-scripts/survival"
+    - "{{ server_folder }}/rc-scripts/vanilla"
 
 - name: Starting services and marked them to start on boot
   service: name={{ item }} enabled=yes state=restarted
   with_items:
     - bungeecord
     - lobby
+    - vanilla
+#    - survival

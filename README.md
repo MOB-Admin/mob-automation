@@ -46,6 +46,8 @@ Last step - MOB server provisioning and setup:
 $ ansible-playbook -i ./inventory/dev mob-provision.yml --extra-vars "env=mob" -vv
 ```
 
+Don't forget to add the deployement key id_rsa_mobdeploy.pem into the folder ansible/roles/mob-provision/files
+
 ### License
 ----
 
