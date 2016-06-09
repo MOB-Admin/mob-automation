@@ -22,18 +22,16 @@
   when: jenkins_service_configure.changed
 
 - name: jenkins-configure | Copy jenkins-cli
-  get_url: url={{ jenkins_url }}{{ jenkins_prefix }}/jnlpJars/jenkins-cli.jar dest={{ jenkins_home }}/jenkins-cli.jar
+  get_url: url={{ jenkins_url }}{{ jenkins_prefix }}/jnlpJars/jenkins-cli.jar dest={{ jenkins_home }}/jenkins-cli.jar owner={{ jenkins_user }} group={{ jenkins_group }}
   register: jenkins_cli
   until: "'OK' in jenkins_cli.msg or 'file already exists' in jenkins_cli.msg"
-  sudo: yes  
   retries: 10
   delay: 10
 
 - name: jenkins-configure | Configure Jenkins System
-  template: src=jenkins_system_config.xml.j2 dest={{jenkins_home}}/jenkins.model.JenkinsLocationConfiguration.xml owner=jenkins group=jenkins force=yes
+  template: src=jenkins_system_config.xml.j2 dest={{jenkins_home}}/jenkins.model.JenkinsLocationConfiguration.xml owner={{ jenkins_user }} group={{ jenkins_group }} force=yes
   notify: [jenkins reload configuration]
 
 - name: Configure log rotation
-  template: src=logrotate.conf.j2 dest=/etc/logrotate.d/jenkins.conf
-  sudo: yes  
+  template: src=logrotate.conf.j2 dest=/etc/logrotate.d/jenkins.conf owner={{ jenkins_user }} group={{ jenkins_group }}
   when: jenkins_logrotate
