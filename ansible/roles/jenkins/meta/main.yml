@@ -3,4 +3,4 @@
 allow_duplicates: false
 
 dependencies:
-  - java1.7-debian
+  - java1.8-oracle-debian
