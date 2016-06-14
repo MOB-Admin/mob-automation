@@ -5,6 +5,7 @@
 - include: repo.yml
 
 - include: worlds.yml
+  when: source
 
 - include: database.yml
 

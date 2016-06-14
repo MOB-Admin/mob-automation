@@ -1,5 +1,6 @@
-# setup common system applications and configure Ansible node
-#
+# Setup MOB server, including worlds
+# source = yes - download worlds
+# ansible-playbook -i ./inventory/dev mob-provision.yml --extra-vars "env=mob source=yes" -vv
 
 - hosts: "{{env}}"
   user: vagrant
